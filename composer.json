@@ -1,0 +1,81 @@
+{
+	"name": "misfist/die-jim-crow-project",
+	"description": "Die Jim Crow Project - Themes and Plugins .",
+	"keywords": ["blog", "cms"],
+	"type": "wordpress-project",
+	"homepage": "https://github.com/misfist/die-jim-crow-project",
+	"license": "GPL-2.0+",
+	"authors": [
+		{
+			"name": "Pea",
+			"homepage": "http://misfist.com"
+		}
+	],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://wpackagist.org"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "misfist/die-jim-crow-promo",
+                "version": "master",
+                "type": "wordpress-theme",
+                "dist": {
+                    "type": "zip",
+                    "url": "https://github.com/misfist/die-jim-crow-promo/archive/master.zip"
+                },
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/misfist/die-jim-crow-promo.git",
+                    "reference": "master"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "themes/singl",
+                "version": "master",
+                "type": "wordpress-theme",
+                "dist": {
+                    "type": "zip",
+                    "url": "https://public-api.wordpress.com/rest/v1/themes/download/singl.zip"
+                },
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/misfist/singl.git",
+                    "reference": "master"
+                }
+            }
+        }
+    ],
+	"require": {
+		"wpackagist-plugin/easy-digital-downloads": "2.5.13",
+		"wpackagist-plugin/intuitive-custom-post-order": "3.0.7",
+		"wpackagist-plugin/jetpack": "4.0.2",
+		"wpackagist-plugin/jetpack-module-control": "1.4.2",
+		"wpackagist-plugin/members": "1.1.1",
+		"wpackagist-plugin/multisite-plugin-manager": "3.1.4",
+		"wpackagist-plugin/network-plugin-auditor": "1.9.1",
+		"wpackagist-plugin/our-team-by-woothemes": "1.4.1",
+		"wpackagist-plugin/password-protected": "2.0.3",
+		"wpackagist-plugin/wordpress-importer": "0.6.1",
+		"wpackagist-plugin/wordpresscom-theme-updates": "1.0",
+        "misfist/die-jim-crow-promo": "dev-master",
+        "themes/singl": "dev-master"
+	},
+    "require-dev": {
+        "wpackagist-plugin/developer": ">=1.2.5",
+        "wpackagist-plugin/which-template": ">=4.0",
+        "wpackagist-plugin/debug-bar-extender": ">=0.5",
+        "wpackagist-plugin/debug-bar": ">=0.8.2",
+        "wpackagist-plugin/debug-bar-actions-and-filters-addon": ">=1.4.1",
+        "wpackagist-plugin/wp-log-viewer": "1.0.4",
+        "wpackagist-plugin/rewrite-rules-inspector": ">=1.2.1",
+        "wpackagist-plugin/theme-check": ">=20150818.1",
+        "wpackagist-plugin/user-switching": ">=1.0.9",
+        "phpunit/phpunit": "4.8.*"
+    }
+}
