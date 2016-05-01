@@ -63,6 +63,7 @@
 		"wpackagist-plugin/password-protected": "2.0.3",
 		"wpackagist-plugin/wordpress-importer": "0.6.1",
 		"wpackagist-plugin/wordpresscom-theme-updates": "1.0",
+        "wpackagist-plugin/codepress-admin-columns": "2.5.6.2",
         "misfist/die-jim-crow-promo": "dev-master",
         "themes/singl": "dev-master"
 	},
