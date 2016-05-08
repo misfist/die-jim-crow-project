@@ -4,9 +4,9 @@
     font-family: $font-family;
 
     src: url('#{$path + $file-name}.eot');
-    src: url('#{$path + $file-name}.eot?#iefix') format('embedded-opentype'),
+    src: url('#{$path + $file-name}.ttf') format('truetype'),
+    url('#{$path + $file-name}.eot?#iefix') format('embedded-opentype'),
     url('#{$path + $file-name}.woff') format('woff'),
-    url('#{$path + $file-name}.ttf') format('truetype'),
     url('#{$path + $file-name}.svg##{$svg-label}') format('svg');
 
     font-weight: $font-weight;

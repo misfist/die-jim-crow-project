@@ -2,8 +2,10 @@
 	display: block;
 }
 
-.hentry {
-	margin: 0 0 1.5em;
+.category .hentry {
+	margin: 0 0 2em;
+    padding-bottom: 2em;
+    border-bottom: 1px solid rgba($color__foreground,.1);
 }
 
 .byline,

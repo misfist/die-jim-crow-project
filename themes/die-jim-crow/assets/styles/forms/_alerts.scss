@@ -1,0 +1,32 @@
+.message,
+.alert,
+.info {
+    border: 1px solid $color__default;
+    background-color: lighten($color__default, 80%);
+    color: $color__default;
+}
+
+.success {
+    @extend .message;
+    border-color: $color__success;
+    background-color: lighten($color__success, 80%);
+    color: $color__success;
+}
+.warning {
+    @extend .message;
+    border-color: $color__warning;
+    background-color: lighten($color__warning, 80%);
+    color: $color__warning;
+}
+.info {
+    @extend .message;
+    border-color: $color__warning;
+    background-color: lighten($color__warning, 80%);
+    color: $color__warning;
+}
+.danger {
+    @extend .message;
+    border-color: $color__danger;
+    background-color: lighten($color__danger, 80%);
+    color: $color__danger;
+}

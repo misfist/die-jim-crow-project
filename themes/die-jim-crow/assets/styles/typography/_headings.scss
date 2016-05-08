@@ -55,7 +55,8 @@ h6 {
 }
 
 .page-title,
-.widget-title {
+.widget-title,
+.page .entry-title {
     @extend %btn;
     @extend %paper;
     display: block;

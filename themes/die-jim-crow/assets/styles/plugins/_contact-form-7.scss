@@ -1,0 +1,46 @@
+div.wpcf7-response-output {
+    @extend .message;
+    margin: .25em 0;
+}
+
+div.wpcf7-mail-sent-ok {
+    @extend .success;
+}
+div.wpcf7-mail-sent-ng {
+    @extend .danger;
+}
+div.wpcf7-spam-blocked {
+    @extend .warning;
+}
+div.wpcf7-validation-errors {
+    @extend .danger;
+}
+span.wpcf7-not-valid-tip {
+    color: $color__danger;
+}
+.use-floating-validation-tip span.wpcf7-not-valid-tip {
+    background-color:  lighten($color__default, 80%);
+    border: 1px solid $color__default;
+}
+
+.wpcf7-form,
+.textwidget {
+    text-align: center;
+
+    span {
+        display: block;
+    }
+    
+    label {
+        text-align: left;
+    }
+}
+
+span.required {
+    display: inline;
+    color: $color__danger;
+}
+
+.wpcf7-form-control {
+    max-width: 100%;
+}

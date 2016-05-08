@@ -90,13 +90,6 @@ function djc_team_add_fields( $fields ) {
 
 add_filter( 'woothemes_our_team_member_fields', 'djc_team_add_fields' );
 
-
-// function my_is_protected_meta_filter( $protected, $meta_key ) {
-//     return $meta_key == 'gravatar_email' ? true : $protected;
-// }
-
-// add_filter( 'is_protected_meta', 'my_is_protected_meta_filter', 10, 2 );
-
 /**
  * Change Label Text
  * Change text displayed for `team-member` post type
@@ -126,6 +119,7 @@ add_filter( 'woothemes_our_team_post_type_args', 'djc_team_labels' );
 
 /**
  * Change Single Slug
+ *
  * Change the post slug for single `team-member` posts to `bio`
  * @link https://codex.wordpress.org/Function_Reference/register_post_type#rewrite
  * 
@@ -138,6 +132,7 @@ add_filter( 'woothemes_our_team_single_slug', 'djc_team_single_slug' );
 
 /**
  * Change Archive Slug
+ *
  * Change the slug for `team-member` post archive to `bios`
  * @link https://codex.wordpress.org/Function_Reference/register_post_type#rewrite
  * 
@@ -150,6 +145,7 @@ add_filter( 'woothemes_our_team_archive_slug', 'djc_team_archive_slug' );
 
 /**
  * Remove Extra Fields from `the_content`
+ *
  * Change `the_content` to only display `post_content` for `team-member` posts
  * @param string $content
  * @link https://codex.wordpress.org/Plugin_API/Filter_Reference/the_content
@@ -173,6 +169,7 @@ add_filter( 'the_content', 'djc_our_team_content' );
 
 /**
  * Customise the "Enter title here" text
+ *
  * Customize the text that appears in the `title` field on the post edit screen
  * @param string $title
  * @return void
@@ -191,6 +188,7 @@ add_filter( 'enter_title_here', 'djc_team_enter_title_here' );
 /**
  * Change Message Text for Bios
  * Change the message text for `team-member` posts
+ *
  * @param string $translated_text
  * @return void
  * @link https://codex.wordpress.org/Plugin_API/Filter_Reference/gettext
@@ -212,6 +210,7 @@ add_filter( 'gettext', 'djc_team_message_text', 20 );
 
 /**
  * Enable Shortcodes in Widgets
+ *
  * @link https://codex.wordpress.org/Shortcode#Shortcodes_in_Widgets
  */
 add_filter('widget_text', 'do_shortcode');
@@ -223,6 +222,7 @@ add_filter('widget_text', 'do_shortcode');
 
 /**
  * Register Shortcode
+ *
  * This is a simple example for a pullquote with a citation.
  */
     add_shortcode( 'photo-album', function( $attr, $content = '' ) {
@@ -249,7 +249,7 @@ add_filter('widget_text', 'do_shortcode');
  * Page Link Shortcode
  *
  */
-function be_page_link_shortcode( $atts ) {
+function djc_page_link_shortcode( $atts ) {
     $output = '';
     $atts = shortcode_atts( array( 
         'ids' => '',
@@ -257,25 +257,25 @@ function be_page_link_shortcode( $atts ) {
     
     $ids = array_map( 'intval', explode( ',', $atts['ids'] ) );
     if( $ids ) {
-        $output .= '<div class="photo-album-link">';
+        $output .= '<div class="photo-album-links">';
         foreach( $ids as $id ) {
         
             $style = has_post_thumbnail( $id ) ? ' style="background-image: url(' . wp_get_attachment_image_url( get_post_thumbnail_id( $id ), 'page_link' ) . ');"' : '';
-            $output .= '<a href="' . get_permalink( $id ) . '"' . $style . '><span class="photo-album-title">' . get_the_title( $id ) . '</span></a>';
+            $output .= '<div class="item-link"' . $style . '><a href="' . get_permalink( $id ) . '" title="' . get_the_title( $id ) . '"><h2 class="entry-title">' . get_the_title( $id ) . '</h2></a></div>';
         }
         $output .= '</div>';
     }
     
     return $output;
 }
-add_shortcode( 'photo-album-link', 'be_page_link_shortcode' );
+add_shortcode( 'photo-album-link', 'djc_page_link_shortcode' );
 
 
 /**
  * Page Link Shortcode UI
  *
  */
-function be_page_link_shortcode_ui() {
+function djc_page_link_shortcode_ui() {
     
     if( ! function_exists( 'shortcode_ui_register_for_shortcode' ) )
         return;
@@ -294,18 +294,193 @@ function be_page_link_shortcode_ui() {
         )
     ) );
 }
-add_action( 'init', 'be_page_link_shortcode_ui' );
+add_action( 'init', 'djc_page_link_shortcode_ui' );
 
 /**
- * Page Link Image Size 
+ * Page Link Shortcode UI
  *
  */
-function be_page_link_image_size() {
+function djc_add_form_shortcode() {
     
-    add_image_size( 'photo_album', 470, 300, true );
+    if( ! function_exists( 'shortcode_ui_register_for_shortcode' ) )
+        return;
+        
+    shortcode_ui_register_for_shortcode( 'contact-form-7', array( 
+        'label'         => 'Add Form',
+        'listItemImage' => 'dashicons-format-image',
+        'attrs'         => array(
+            array(
+                'label'    => 'Title',
+                'attr'     => 'title',
+                'type'     => 'text',
+            ),
+            array(
+                'label'    => 'Select Form',
+                'attr'     => 'id',
+                'type'     => 'post_select',
+                'query'    => array( 'post_type' => 'wpcf7_contact_form'),
+                'multiple' => false,
+            ),
+        )
+    ) );
+}
+add_action( 'init', 'djc_add_form_shortcode' );
+
+
+
+/**
+ * Hide Password Protected Pages
+ *
+ * @param string
+ * @return query string
+ * @link https://codex.wordpress.org/Using_Password_Protection#Hiding_Password_Protected_Posts
+ */
+function djc_exclude_protected( $where ) {
+    global $wpdb;
+    return $where .= " AND {$wpdb->posts}.post_password = '' ";
 }
 
-add_action( 'after_setup_theme', 'be_page_link_image_size' );
+/**
+ * Hide Password Protected Pages
+ *
+ * @param query string
+ * @return void
+ * @uses @wp-hook pre_get_posts
+ * @link https://codex.wordpress.org/Using_Password_Protection#Hiding_Password_Protected_Posts
+ */
+// Decide where to display them
+function djc_exclude_protected_action( $query ) {
+    if( !is_single() && !is_page() && !is_admin() ) {
+        add_filter( 'posts_where', 'djc_exclude_protected' );
+    }
+}
+
+// Action to queue the filter at the right time
+add_action('pre_get_posts', 'djc_exclude_protected_action');
+
+/**
+ * Change Password Protected Page Text
+ *
+ * @uses @wp-hook the_password_form
+ * @param n/a
+ * @return string
+ * @link https://codex.wordpress.org/Using_Password_Protection#Customize_the_Protected_Text
+ */
+function djc_passcode_form() {
+    global $post;
+    $label = 'password-' . ( empty( $post->ID ) ? rand() : $post->ID );
+    $output = '<form class="protected-post-form" action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" method="post">
+    ' . __( "Enter the passcode to download the EP", 'die-jim-crow' ) . '
+    <label class="password-label" for="' . $label . '">' . __( "Passcode", 'die-jim-crow' ) . '</label> <input name="post_password" id="' . $label . '" type="password" class="password" size="20" /> <input type="submit" name="Submit" class="button" value="' . esc_attr__( "Submit" ) . '" />
+    </form>
+    ';
+    return $output;
+}
+
+add_filter( 'the_password_form', 'djc_passcode_form' );
+
+/**
+ * Add a message to the password form.
+ *
+ * @wp-hook the_password_form
+ * @param string $form
+ * @return string
+ */
+function djc_passcode_password_msg( $form ) {
+    // No cookie, the user has not sent anything until now.
+    if ( ! isset ( $_COOKIE[ 'wp-postpass_' . COOKIEHASH ] ) )
+        return $form;
+
+    // Translate and escape.
+    $msg = esc_html__( 'That passcode is not correct.', 'die-jim-crow' );
+
+    // We have a cookie, but it doesn’t match the password.
+    $msg = "<p class='custom-password-message'>$msg</p>";
+
+    return $msg . $form;
+}
+
+add_filter( 'the_password_form', 'djc_passcode_password_msg' );
+
+
+/**
+ * Change Contact Form 7 admin menu label
+ *
+ * @return void
+ * @uses admin_menu
+ */
+function djc_edit_contact_7_menu() {
+    global $menu;
+    $menu[27][0] = 'Forms'; // Change Posts to Recipes
+}
+
+add_action( 'admin_menu', 'djc_edit_contact_7_menu' );
+
+function edit_admin_menus() {
+    global $menu;
+    $menu[27][0] = 'Forms'; // Change Posts to Recipes
+}
+add_action( 'admin_menu', 'edit_admin_menus' );
+
+
+/**
+ * Move Contact Form DB menu into Contact Form 7 menu
+ *
+ * @return void
+ * @uses admin_menu
+ */
+if( class_exists( 'CF7DBPlugin' ) ) {
+
+    if( !function_exists( 'djc_remove_contact_7_db_menu' ) ) {
+
+        /**
+         * Remove the menu
+         */
+        function djc_remove_contact_7_db_menu() {
+            remove_menu_page( 'CF7DBPluginSubmissions' );
+        }
+
+        add_action( 'admin_menu', 'djc_remove_contact_7_db_menu' );
+
+    }
+
+    if( !function_exists( 'djc_add_contact_7_db_submenu' ) ) {
+
+        /**
+         * Add the menus under Contact Form 7 menu
+         */
+        function djc_add_contact_7_db_submenu() {
+
+            add_submenu_page(
+                'wpcf7', 
+                __( 'Submissions', 'die-jim-crow' ), 
+                __( 'Submissions', 'die-jim-crow' ), 
+                'wpcf7_admin_management_page', 
+                'CF7DBPluginSubmissions'
+            );
+
+            add_submenu_page(
+                'wpcf7', 
+                __( 'Submission Shortcodes', 'die-jim-crow' ), 
+                __( 'Submission Shortcodes', 'die-jim-crow' ), 
+                'wpcf7_admin_management_page', 
+                'admin.php?page=CF7DBPluginShortCodeBuilder'
+            );
+
+            add_submenu_page(
+                'wpcf7', 
+                __( 'Submission Settings', 'die-jim-crow' ), 
+                __( 'Submission Settings', 'die-jim-crow' ), 
+                'wpcf7_admin_management_page', 
+                'admin.php?page=CF7DBPluginSettings'
+            );
+        }
+
+        add_action( 'admin_menu', 'djc_add_contact_7_db_submenu' );
+
+    }
+
+}
 
 
 ?>
