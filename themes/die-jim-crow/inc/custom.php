@@ -403,19 +403,22 @@ function djc_passcode_password_msg( $form ) {
 add_filter( 'the_password_form', 'djc_passcode_password_msg' );
 
 
-/**
- * Change Contact Form 7 admin menu label
- *
- * @return void
- * @uses admin_menu
- */
-function djc_edit_contact_7_menu() {
-    global $menu;
-    $menu[26][0] = 'Forms'; // Change Posts to Forms
+if( class_exists( 'WPCF7_ContactForm' ) ) {
+
+    /**
+     * Change Contact Form 7 admin menu label
+     *
+     * @return void
+     * @uses admin_menu
+     */
+    function djc_edit_contact_7_menu() {
+        global $menu;
+        $menu[26][0] = 'Forms'; // Change Posts to Forms
+    }
+
+    add_action( 'admin_menu', 'djc_edit_contact_7_menu' );
+
 }
-
-add_action( 'admin_menu', 'djc_edit_contact_7_menu' );
-
 
 /**
  * Move Contact Form DB menu into Contact Form 7 menu
