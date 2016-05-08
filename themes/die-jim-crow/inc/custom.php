@@ -480,4 +480,24 @@ if( class_exists( 'CF7DBPlugin' ) ) {
 }
 
 
+/**
+ * Adds a css class to the body element
+ *
+ * @param  array $classes the current body classes
+ * @return array $classes modified classes
+ */
+function djc_body_class_for_pages( $classes ) {
+
+    if ( is_singular( 'page' ) ) {
+        global $post;
+        $classes[] = 'page-' . $post->post_name;
+    }
+
+    return $classes;
+
+}
+
+add_filter( 'body_class', 'djc_body_class_for_pages' );
+
+
 ?>

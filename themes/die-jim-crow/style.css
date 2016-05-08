@@ -487,6 +487,9 @@ h6 {
   display: block;
   padding: .25em; }
 
+.page h3.entry-title {
+  background-image: none; }
+
 p {
   margin-bottom: 1.5em; }
 
