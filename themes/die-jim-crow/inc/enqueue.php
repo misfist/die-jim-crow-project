@@ -18,6 +18,9 @@ function die_jim_crow_scripts() {
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
         wp_enqueue_script( 'comment-reply' );
     }
+
+    wp_register_script( 'recaptcha_api', 'https://www.google.com/recaptcha/api.js' );
+    wp_enqueue_script( 'recaptcha_api' );
 }
 add_action( 'wp_enqueue_scripts', 'die_jim_crow_scripts' );
 
