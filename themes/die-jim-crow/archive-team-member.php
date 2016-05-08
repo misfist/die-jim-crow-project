@@ -24,7 +24,7 @@ get_header(); ?>
 			<?php //fetch terms
 				$terms = get_terms( 'team-member-category', array(
 				    'orderby'    => 'term_id',
-				    'hide_empty' => 0
+				    'hide_empty' => 0,
 				) );
 			?>
 
@@ -40,6 +40,7 @@ get_header(); ?>
 							'taxonomy' => 'team-member-category',
 							'field'    => 'slug',
 							'terms'    => $term->slug,
+							'posts_per_page' => -1,
 						),
 					),
 				);
