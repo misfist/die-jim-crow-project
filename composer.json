@@ -19,53 +19,39 @@
         {
             "type": "package",
             "package": {
-                "name": "misfist/die-jim-crow-promo",
+                "name": "misfist/die-jim-crow",
                 "version": "master",
                 "type": "wordpress-theme",
                 "dist": {
                     "type": "zip",
-                    "url": "https://github.com/misfist/die-jim-crow-promo/archive/master.zip"
+                    "url": "https://github.com/misfist/die-jim-crow/archive/master.zip"
                 },
                 "source": {
                     "type": "git",
-                    "url": "https://github.com/misfist/die-jim-crow-promo.git",
-                    "reference": "master"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "themes/singl",
-                "version": "master",
-                "type": "wordpress-theme",
-                "dist": {
-                    "type": "zip",
-                    "url": "https://public-api.wordpress.com/rest/v1/themes/download/singl.zip"
-                },
-                "source": {
-                    "type": "git",
-                    "url": "https://github.com/misfist/singl.git",
+                    "url": "https://github.com/misfist/die-jim-crow.git",
                     "reference": "master"
                 }
             }
         }
     ],
 	"require": {
-		"wpackagist-plugin/easy-digital-downloads": "2.5.13",
+        "wpackagist-plugin/codepress-admin-columns": "2.5.6.2",
+        "wpackagist-plugin/custom-contact-forms": "7.8.1",
+        "wpackagist-plugin/flexible-posts-widget": "3.5.0",
 		"wpackagist-plugin/intuitive-custom-post-order": "3.0.7",
 		"wpackagist-plugin/jetpack": "4.0.2",
 		"wpackagist-plugin/jetpack-module-control": "1.4.2",
 		"wpackagist-plugin/members": "1.1.1",
 		"wpackagist-plugin/multisite-plugin-manager": "3.1.4",
+        "wpackagist-plugin/nav-menu-roles": "1.8.1",
 		"wpackagist-plugin/network-plugin-auditor": "1.9.1",
 		"wpackagist-plugin/our-team-by-woothemes": "1.4.1",
 		"wpackagist-plugin/password-protected": "2.0.3",
+        "wpackagist-plugin/post-type-archive-links": "1.3.1",
+        "wpackagist-plugin/woocommerce": "2.5.5",
 		"wpackagist-plugin/wordpress-importer": "0.6.1",
 		"wpackagist-plugin/wordpresscom-theme-updates": "1.0",
-        "wpackagist-plugin/codepress-admin-columns": "2.5.6.2",
-        "misfist/die-jim-crow-promo": "dev-master",
-        "themes/singl": "dev-master"
+        "misfist/die-jim-crow": "dev-master",
 	},
     "require-dev": {
         "wpackagist-plugin/developer": ">=1.2.5",
