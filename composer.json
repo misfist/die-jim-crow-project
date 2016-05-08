@@ -19,6 +19,23 @@
         {
             "type": "package",
             "package": {
+                "name": "wp-shortcake/shortcake",
+                "version": "master",
+                "type": "wordpress-plugin",
+                "dist": {
+                    "type": "zip",
+                    "url": "https://github.com/wp-shortcake/shortcake/archive/master.zip"
+                },
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/wp-shortcake/shortcake.git",
+                    "reference": "master"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
                 "name": "misfist/die-jim-crow",
                 "version": "master",
                 "type": "wordpress-theme",
@@ -52,6 +69,7 @@
 		"wpackagist-plugin/wordpress-importer": "0.6.1",
 		"wpackagist-plugin/wordpresscom-theme-updates": "1.0",
         "misfist/die-jim-crow": "dev-master",
+        "wp-shortcake/shortcake": "dev-master"
 	},
     "require-dev": {
         "wpackagist-plugin/developer": ">=1.2.5",
