@@ -23,17 +23,21 @@ span.wpcf7-not-valid-tip {
     border: 1px solid $color__default;
 }
 
-.wpcf7-form,
 .textwidget {
     text-align: center;
 
     span {
         display: block;
     }
-    
+
     label {
         text-align: left;
     }
+}
+
+.passcode span,
+span.user-email  {
+    display: block;
 }
 
 span.required {

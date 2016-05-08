@@ -1126,15 +1126,16 @@ span.wpcf7-not-valid-tip {
   background-color: white;
   border: 1px solid #fff; }
 
-.wpcf7-form,
 .textwidget {
   text-align: center; }
-  .wpcf7-form span,
   .textwidget span {
     display: block; }
-  .wpcf7-form label,
   .textwidget label {
     text-align: left; }
+
+.passcode span,
+span.user-email {
+  display: block; }
 
 span.required {
   display: inline;
