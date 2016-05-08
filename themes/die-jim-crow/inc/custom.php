@@ -261,7 +261,7 @@ function djc_page_link_shortcode( $atts ) {
         foreach( $ids as $id ) {
         
             $style = has_post_thumbnail( $id ) ? ' style="background-image: url(' . wp_get_attachment_image_url( get_post_thumbnail_id( $id ), 'page_link' ) . ');"' : '';
-            $output .= '<div class="item-link"' . $style . '><a href="' . get_permalink( $id ) . '" title="' . get_the_title( $id ) . '"><h2 class="entry-title">' . get_the_title( $id ) . '</h2></a></div>';
+            $output .= '<div class="item-link"' . $style . '><a href="' . get_permalink( $id ) . '" title="' . get_the_title( $id ) . '"><h3 class="entry-title">' . get_the_title( $id ) . '</h3></a></div>';
         }
         $output .= '</div>';
     }

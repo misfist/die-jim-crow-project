@@ -1085,7 +1085,10 @@ object {
 .post-type-archive-team-member .entry-title {
   margin: 0; }
 
-.post-type-archive-team-member .entry-title {
+.post-type-archive-team-member h2.entry-title {
+  margin: 1em 0 .25em; }
+
+.post-type-archive-team-member h3.entry-title {
   display: block;
   margin: 0;
   min-height: 200px;
@@ -1093,14 +1096,14 @@ object {
   vertical-align: middle;
   background-color: transparent;
   border: none; }
-  .post-type-archive-team-member .entry-title a {
+  .post-type-archive-team-member h3.entry-title a {
     color: transparent;
     display: block;
     min-height: 200px; }
-  .post-type-archive-team-member .entry-title:hover, .post-type-archive-team-member .entry-title:focus {
+  .post-type-archive-team-member h3.entry-title:hover, .post-type-archive-team-member h3.entry-title:focus {
     background-color: rgba(0, 0, 0, 0.7); }
-  .post-type-archive-team-member .entry-title:hover a,
-  .post-type-archive-team-member .entry-title:focus a {
+  .post-type-archive-team-member h3.entry-title:hover a,
+  .post-type-archive-team-member h3.entry-title:focus a {
     color: #fff; }
 
 @media screen and (min-width: 37.5em) {
