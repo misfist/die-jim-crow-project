@@ -486,6 +486,10 @@ h6 {
   text-align: center;
   display: block;
   padding: .25em; }
+  .page-title a,
+  .widget-title a,
+  .page .entry-title a {
+    color: #111; }
 
 .page h3.entry-title {
   background-image: none; }

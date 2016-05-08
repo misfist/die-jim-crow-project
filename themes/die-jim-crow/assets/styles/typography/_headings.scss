@@ -63,6 +63,10 @@ h6 {
     text-align: center;
     display: block;
     padding: .25em;
+
+    a {
+        color: $color__background;
+    }
 }
 
 .page h3.entry-title {
