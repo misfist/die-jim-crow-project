@@ -411,16 +411,10 @@ add_filter( 'the_password_form', 'djc_passcode_password_msg' );
  */
 function djc_edit_contact_7_menu() {
     global $menu;
-    $menu[27][0] = 'Forms'; // Change Posts to Recipes
+    $menu[26][0] = 'Forms'; // Change Posts to Forms
 }
 
 add_action( 'admin_menu', 'djc_edit_contact_7_menu' );
-
-function edit_admin_menus() {
-    global $menu;
-    $menu[27][0] = 'Forms'; // Change Posts to Recipes
-}
-add_action( 'admin_menu', 'edit_admin_menus' );
 
 
 /**
