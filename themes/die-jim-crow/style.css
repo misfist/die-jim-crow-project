@@ -79,9 +79,7 @@ Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
 .posts-navigation .nav-previous a,
 .posts-navigation .nav-next a,
 .post-navigation .nav-previous a,
-.post-navigation .nav-next a, .home .site-main .entry-title, .page-title,
-.widget-title,
-.page .entry-title, button,
+.post-navigation .nav-next a, button,
 input[type="button"],
 input[type="reset"],
 input[type="submit"],
@@ -102,9 +100,7 @@ input[type="submit"],
   .posts-navigation .nav-previous a a,
   .posts-navigation .nav-next a a,
   .post-navigation .nav-previous a a,
-  .post-navigation .nav-next a a, .home .site-main .entry-title a, .page-title a,
-  .widget-title a,
-  .page .entry-title a, button a,
+  .post-navigation .nav-next a a, button a,
   input[type="button"] a,
   input[type="reset"] a,
   input[type="submit"] a,
@@ -113,9 +109,7 @@ input[type="submit"],
   .posts-navigation .nav-previous a a:visited,
   .posts-navigation .nav-next a a:visited,
   .post-navigation .nav-previous a a:visited,
-  .post-navigation .nav-next a a:visited, .home .site-main .entry-title a:visited, .page-title a:visited,
-  .widget-title a:visited,
-  .page .entry-title a:visited, button a:visited,
+  .post-navigation .nav-next a a:visited, button a:visited,
   input[type="button"] a:visited,
   input[type="reset"] a:visited,
   input[type="submit"] a:visited,
@@ -126,9 +120,7 @@ input[type="submit"],
   .posts-navigation .nav-previous a:before,
   .posts-navigation .nav-next a:before,
   .post-navigation .nav-previous a:before,
-  .post-navigation .nav-next a:before, .home .site-main .entry-title:before, .page-title:before,
-  .widget-title:before,
-  .page .entry-title:before, button:before,
+  .post-navigation .nav-next a:before, button:before,
   input[type="button"]:before,
   input[type="reset"]:before,
   input[type="submit"]:before,
@@ -137,9 +129,7 @@ input[type="submit"],
   .posts-navigation .nav-previous a:after,
   .posts-navigation .nav-next a:after,
   .post-navigation .nav-previous a:after,
-  .post-navigation .nav-next a:after, .home .site-main .entry-title:after, .page-title:after,
-  .widget-title:after,
-  .page .entry-title:after, button:after,
+  .post-navigation .nav-next a:after, button:after,
   input[type="button"]:after,
   input[type="reset"]:after,
   input[type="submit"]:after,
@@ -172,9 +162,7 @@ input[type="submit"],
     color: #fff; }
 
 /* Paper effect – slightly raised off background */
-.home .site-main .entry-title, .page-title,
-.widget-title,
-.page .entry-title, .wp-post-image, button,
+.wp-post-image, button,
 input[type="button"],
 input[type="reset"],
 input[type="submit"],
@@ -398,6 +386,10 @@ th {
     padding: 2em 5em .5em 5em; } }
 
 .home .site-main .entry-title {
+  background: transparent url("dist/images/torn-paper.png") center center no-repeat;
+  background-size: 100% 100%;
+  color: #111;
+  text-align: center;
   display: block;
   padding: .25em; }
 
@@ -488,6 +480,10 @@ h6 {
 .page-title,
 .widget-title,
 .page .entry-title {
+  background: transparent url("dist/images/torn-paper.png") center center no-repeat;
+  background-size: 100% 100%;
+  color: #111;
+  text-align: center;
   display: block;
   padding: .25em; }
 

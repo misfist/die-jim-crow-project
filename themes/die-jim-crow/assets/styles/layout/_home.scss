@@ -2,8 +2,10 @@
 
     .site-main {
         .entry-title {
-            @extend %btn;
-            @extend %paper;
+            background: transparent url('dist/images/torn-paper.png') center center no-repeat;
+            background-size: 100% 100%;
+            color: $color__background;
+            text-align: center;
             display: block;
             padding: .25em;
         }
