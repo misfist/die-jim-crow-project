@@ -392,6 +392,8 @@ th {
   text-align: center;
   display: block;
   padding: .25em; }
+  .home .site-main .entry-title a {
+    color: #111; }
 
 .home .recent-posts .wp-post-image {
   width: 100%;
