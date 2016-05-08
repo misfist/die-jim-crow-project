@@ -1,0 +1,70 @@
+body.login {
+    background-color: $color__background;
+    color: $color__foreground;
+
+    div#login {
+
+        #login_error {
+            background-color: rgba($color__foreground,.2);
+        }
+
+        .message {
+            background-color: rgba($color__foreground,.2);
+        }
+
+        h1 {
+            a {
+                display: none;
+            }
+        }
+
+        h1.login-message {
+            line-height: 125%;
+        }
+
+        form#loginform {
+            background-color: transparent;
+            p {
+                background-color: transparent;
+
+                &.forgetmenot {}
+                &.forgetmenot input#rememberme {}
+                &.submit {}
+                &.submit input#wp-submit {}
+                &#nav {}
+                &#nav a {}
+                &#backtoblog {}
+                &#backtoblog a {}
+            }
+            p label {}
+
+            input {
+                &:focus {
+                    border-color: $color__secondary;
+                }
+                &#user_login {}
+                &#user_pass {}
+                &#password_protected_pass {}
+            }
+            
+        }
+
+    }
+}
+
+@include breakpoint(md) {
+
+    h1.login-message {
+        @include font-size($h1);
+        line-height: 125%;
+    }
+
+}
+
+.wp-core-ui .button-primary {
+    @include button;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+

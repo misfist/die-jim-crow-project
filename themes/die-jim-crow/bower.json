@@ -1,0 +1,10 @@
+{
+  "name": "die-jim-crow-promo",
+  "homepage": "https://github.com/misfist/die-jim-crow-promo",
+  "authors": [
+    "Pea"
+  ],
+  "license": "GPL-3.0",
+  "private": true,
+  "dependencies": {}
+}

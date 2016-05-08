@@ -1,0 +1,31 @@
+.home {
+
+    .site-main {
+
+        @include breakpoint(md) {
+
+            display: flex;
+
+            .featured-post {
+                width: $size__site-main;
+                padding-right: 1em;
+            }
+
+            .recent-posts {
+                width: $size__site-sidebar;
+                padding-left: 1em;
+            }
+
+        }
+    }
+
+    .site-main {
+        .entry-title {
+            @extend %btn;
+            @extend %paper;
+            display: block;
+            padding: .25em;
+        }
+    }
+
+}

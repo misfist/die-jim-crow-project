@@ -1,0 +1,20 @@
+{
+  "name": "misfist/die-jim-crow-promo",
+  "type": "wordpress-theme",
+  "license": "GPL-3.0",
+  "description": " One-page Promo Site for Die Jim Crow.",
+  "homepage": "https://github.com/misfist/die-jim-crow-promo",
+  "authors": [
+    {
+      "name": "Pea",
+      "email": "pea@misfist.com",
+      "homepage": "https://github.com/misfist"
+    }
+  ],
+  "require": {
+    "wpackagist-theme/Die_Jim_Crow": "1.1.2"
+  },
+  "keywords": [
+    "wordpress"
+  ]
+}

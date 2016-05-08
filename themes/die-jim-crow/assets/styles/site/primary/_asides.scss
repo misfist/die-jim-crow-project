@@ -1,0 +1,10 @@
+.blog .format-aside .entry-title,
+.archive .format-aside .entry-title {
+	display: none;
+}
+
+.widget {
+    ul {
+        @include no-bullets;
+    }
+}

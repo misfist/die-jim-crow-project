@@ -53,6 +53,7 @@
 		"wpackagist-plugin/wordpress-importer": "0.6.1",
 		"wpackagist-plugin/wordpresscom-theme-updates": "1.0",
         "misfist/die-jim-crow": "dev-master",
+        "wpackagist-theme/twentysixteen": "1.2"
 	},
     "require-dev": {
         "wpackagist-plugin/developer": ">=1.2.5",
