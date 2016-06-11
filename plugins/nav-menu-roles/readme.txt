@@ -5,7 +5,7 @@ Donate link: https://www.paypal.me/helgatheviking
 Tags: menu, menus, nav menu, nav menus
 Requires at least: 4.5.0
 Tested up to: 4.5.1
-Stable tag: 1.8.0
+Stable tag: 1.8.1
 License: GPLv3
 
 Hide custom menu items based on user roles. PLEASE READ THE FAQ IF YOU ARE NOT SEEING THE SETTINGS.
@@ -23,9 +23,8 @@ In WordPress menu items and pages are completely separate entities. Nav Menu Rol
 = Usage =
 
 1. Go to Appearance > Menus
-1. Edit the menu items accordingly.  First select whether you'd like to display the item to all logged in users, all logged out users or to customize by role.
-1. If you chose customize by role, keep in mind that the role doesn't limit the item strictly to that role, but to everyone who has that role's capability. For example: an item set to "Subscriber" will be visible by Subscribers *and* by admins. Think of this more as a minimum role required to see an item. 
-1. If you choose 'By Role' and don't check any boxes, the item will be visible to everyone like normal.
+1. Set the "Display Mode" to either "logged in users", "logged out users", or "everyone". "Everyone" is the default.
+1. If you wish to customize by role, set the "Display Mode" to "Logged In Users" and under "Restrict menu item to a minimum role" check the boxes next to the desired roles. **Keep in mind that the role doesn't limit the item strictly to that role, but to everyone who has that role's capability.** For example: an item set to "Subscriber" will be visible by Subscribers *and* by admins. Think of this more as a minimum role required to see an item. 
 
 = Support =
 
@@ -62,7 +61,8 @@ WordPress does not have sufficient hooks in this area of the admin and until the
 5. BeTheme
 6. Yith Menu
 7. Jupiter Theme
-8. iMedica
+8. iMedica theme
+9. Prostyler EVO theme
 
 
 = <a id="compatibility"></a>Workaround #1 =
@@ -198,6 +198,9 @@ However, the Import plugin only imports certain post meta for menu items.  As of
 1. No duplicate posts will be created but all menu post meta (including your Nav Menu Roles info) will be imported
 
 == Changelog ==
+
+= 1.8.1 = 
+* Switch input names to use a counter [nav-menu-role][100][1]. For some reason [nav-menu-role][100][] doesn't post an array and hypenated names [nav-menu-role][100][gold-plan] wreak havoc on the save routine. Shouldn't impact anyone not using hyphenated role names. 
 
 = 1.8.0 = 
 * Fix style issue in WordPress 4.5

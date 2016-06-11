@@ -55,6 +55,7 @@
         "wpackagist-plugin/woocommerce": "2.5.5",
 		"wpackagist-plugin/wordpress-importer": "0.6.1",
 		"wpackagist-plugin/wordpresscom-theme-updates": "1.0",
+        "wpackagist-plugin/wp-featherlight": "0.3.0",
         "misfist/die-jim-crow": "dev-master",
         "wpackagist-theme/twentysixteen": "1.2"
 	},

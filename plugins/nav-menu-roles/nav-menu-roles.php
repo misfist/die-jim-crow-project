@@ -3,7 +3,7 @@
 Plugin Name: Nav Menu Roles
 Plugin URI: http://www.kathyisawesome.com/449/nav-menu-roles/
 Description: Hide custom menu items based on user roles.
-Version: 1.8.0
+Version: 1.8.1
 Author: Kathy Darling
 Author URI: http://www.kathyisawesome.com
 License: GPL2
@@ -54,7 +54,7 @@ class Nav_Menu_Roles {
 	* @constant string version number
 	* @since 1.7.1
 	*/
-	CONST VERSION = '1.8.0';
+	CONST VERSION = '1.8.1';
 
 	/**
 	* Main Nav Menu Roles Instance
@@ -327,6 +327,8 @@ class Nav_Menu_Roles {
 		    <br />
 
 		    <?php
+		    
+		    $i = 1;
 
 		    /* Loop through each of the available roles. */
 		    foreach ( $display_roles as $role => $name ) {
@@ -337,9 +339,10 @@ class Nav_Menu_Roles {
 		        ?>
 
 		        <div class="role-input-holder" style="float: left; width: 33.3%; margin: 2px 0;">
-		        <input type="checkbox" name="nav-menu-role[<?php echo $item->ID ;?>][<?php echo $role; ?>]" id="nav_menu_role-<?php echo $role; ?>-for-<?php echo $item->ID ;?>" <?php echo $checked; ?> value="<?php echo $role; ?>" />
+		        <input type="checkbox" name="nav-menu-role[<?php echo $item->ID ;?>][<?php echo $i; ?>]" id="nav_menu_role-<?php echo $role; ?>-for-<?php echo $item->ID ;?>" <?php echo $checked; ?> value="<?php echo $role; ?>" />
 		        <label for="nav_menu_role-<?php echo $role; ?>-for-<?php echo $item->ID ;?>">
 		        <?php echo esc_html( $name ); ?>
+		        <?php $i++; ?>
 		        </label>
 		        </div>
 
@@ -375,19 +378,26 @@ class Nav_Menu_Roles {
 		$allowed_roles = apply_filters( 'nav_menu_roles', $wp_roles->role_names );
 
 		// verify this came from our screen and with proper authorization.
-		if ( ! isset( $_POST['nav-menu-role-nonce'] ) || ! wp_verify_nonce( $_POST['nav-menu-role-nonce'], 'nav-menu-nonce-name' ) )
+		if ( ! isset( $_POST['nav-menu-role-nonce'] ) || ! wp_verify_nonce( $_POST['nav-menu-role-nonce'], 'nav-menu-nonce-name' ) ){
 			return;
-
+		}
+		
 		$saved_data = false;
 
 		if ( isset( $_POST['nav-menu-logged-in-out'][$menu_item_db_id]  )  && $_POST['nav-menu-logged-in-out'][$menu_item_db_id] == 'in' && ! empty ( $_POST['nav-menu-role'][$menu_item_db_id] ) ) {
+			
 			$custom_roles = array();
+			
 			// only save allowed roles
-			foreach( $_POST['nav-menu-role'][$menu_item_db_id] as $role ) {
-				if ( array_key_exists ( $role, $allowed_roles ) ) $custom_roles[] = $role;
+			foreach( (array) $_POST['nav-menu-role'][$menu_item_db_id] as $role ) {
+				if ( array_key_exists ( $role, $allowed_roles ) ) {
+					$custom_roles[] = $role;
+				}
 			}
-			if ( ! empty ( $custom_roles ) ) $saved_data = $custom_roles;
-		} else if ( isset( $_POST['nav-menu-logged-in-out'][$menu_item_db_id]  )  && in_array( $_POST['nav-menu-logged-in-out'][$menu_item_db_id], array( 'in', 'out' ) ) ) {
+			if ( ! empty ( $custom_roles ) ) {
+				$saved_data = $custom_roles;
+			}
+		} else if ( isset( $_POST['nav-menu-logged-in-out'][$menu_item_db_id]  ) && in_array( $_POST['nav-menu-logged-in-out'][$menu_item_db_id], array( 'in', 'out' ) ) ) {
 			$saved_data = $_POST['nav-menu-logged-in-out'][$menu_item_db_id];
 		}
 
