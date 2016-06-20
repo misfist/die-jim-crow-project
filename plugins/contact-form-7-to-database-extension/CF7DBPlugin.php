@@ -51,6 +51,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
         return array(
             // Integrations
                 'IntegrateWithCF7' => array(__('Capture form submissions from Contact Form 7 Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
+                'IntegrateWithCF7SavePageTitle' => array(__('Save Page Title from Contact Form 7 submissions', 'contact-form-7-to-database-extension'), 'false', 'true'),
+                'IntegrateWithCF7SavePageUrl' => array(__('Save Page URL from Contact Form 7 submissions', 'contact-form-7-to-database-extension'), 'false', 'true'),
                 'GenerateSubmitTimeInCF7Email' => array(__('Generate [submit_time] tag for Contact Form 7 email', 'contact-form-7-to-database-extension'), 'false', 'true'),
                 'IntegrateWithFSCF' => array(__('Capture form submissions from Fast Secure Contact Form Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
                 'IntegrateWithJetPackContactForm' => array(__('Capture form submissions from JetPack Contact Form', 'contact-form-7-to-database-extension'), 'true', 'false'),
@@ -74,7 +76,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
                 'FunctionsInShortCodes' => array(__('Allow Any Function in Short Codes', 'contact-form-7-to-database-extension') .
                         ' <a target="_blank" href="http://cfdbplugin.com/?page_id=1073">' . __('(Creates a security hole)', 'contact-form-7-to-database-extension') . '</a>', 'false', 'true'),
-                'HideAdminPanelFromNonAdmins' => array(__('Allow only Administrators to see CFDB administration screens', 'contact-form-7-to-database-extension'), 'false', 'true'),
+                'HideAdminPanelFromNonAdmins' => array(__('Allow only Administrators to see CFDB administration screens', 'contact-form-7-to-database-extension'), 'true', 'false'),
                 'AllowRSS' => array(__('Allow RSS URLs', 'contact-form-7-to-database-extension') .
                         ' <a target="_blank" href="http://cfdbplugin.com/?p=918">' . __('(Creates a security hole)', 'contact-form-7-to-database-extension') . '</a>', 'false', 'true'),
 
@@ -122,8 +124,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
             }
         }
         require_once('CFDBViewOptions.php');
-        $optionsView = new CFDBViewOptions($this);
-        $optionsView->outputOptions();
+        $optionsView = new CFDBViewOptions();
+        $optionsView->display($this);
     }
 
         public function getOptionValueI18nString($optionValue) {
@@ -752,7 +754,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
      */
     public function saveFormData($cf7) {
         try {
-            if (!empty($cf7->posted_data['submit_time']) && is_numeric($cf7->posted_data['submit_time'])) {
+            if (
+                    !empty($cf7->posted_data['submit_time']) &&
+                    (is_numeric($cf7->posted_data['submit_time']) ||
+                            // Looks like is_numeric may fail on decimal '.' when ',' is the localization
+                            preg_match('/^\d+\.?\d*$/', $cf7->posted_data['submit_time']))
+            ) {
                 $time = $cf7->posted_data['submit_time'];
                 unset($cf7->posted_data['submit_time']);
                 unset($cf7->posted_data['submit_url']);
@@ -969,7 +976,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
     public function createAdminMenu() {
         $displayName = $this->getPluginDisplayName();
 
-        $hideFromNonAdmins = $this->getOption('HideAdminPanelFromNonAdmins', 'false', true) != 'false';
+        $hideFromNonAdmins = $this->getOption('HideAdminPanelFromNonAdmins', 'true', true) != 'false';
         $roleAllowed = 'Administrator';
         if (!$hideFromNonAdmins) {
             $roleAllowed = $this->getRoleOption('CanSeeSubmitData');
@@ -1117,11 +1124,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
             }
 
             ?>
-            <form action="<?php echo get_admin_url() . 'admin.php?page=' . $this->getDBPageSlug() . "&form_name=" . urlencode($form) ?>" method="post">
+            <div class="wrap">
+            <form action="<?php echo get_admin_url() . 'admin.php?page=' . $this->getDBPageSlug() . "&form_name=" . urlencode($form) ?>"
+                  method="post">
                 <input name="form_name" type="hidden" value="<?php echo htmlspecialchars($form) ?>"/>
                 <input name="<?php echo htmlspecialchars($submitTime) ?>" type="hidden" value="row"/>
                 <?php wp_nonce_field(); ?>
-                <button id="delete" name="cfdbdel" onclick="this.form.submit();"><?php echo htmlspecialchars(__('Delete', 'contact-form-7-to-database-extension')); ?></button>
+                <button id="delete" name="cfdbdel" class="button"
+                        onclick="this.form.submit();"><?php echo htmlspecialchars(__('Delete', 'contact-form-7-to-database-extension')); ?></button>
             </form>
             <?php
             $exp->export($form, array('submit_time' => $submitTime, 'filelinks' => 'link'));
@@ -1130,6 +1140,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
             $view = new CFDBViewWhatsInDB;
             $view->display($this);
         }
+        ?>
+        </div>
+        <?php
     }
 
     static $checkForCustomDateFormat = true;

@@ -29,6 +29,7 @@ class CFDBViewWhatsInDB extends CFDBView {
         if ($plugin == null) {
             $plugin = new CF7DBPlugin;
         }
+        echo '<div id="cfdb-admin">';
         $canEdit = $plugin->canUserDoRoleOption('CanChangeSubmitData');
         $this->pageHeader($plugin);
 
@@ -111,7 +112,7 @@ class CFDBViewWhatsInDB extends CFDBView {
         $pluginDirUrl = $plugin->getPluginDirUrl();
 
         ?>
-    <table width="100%" cellspacing="20">
+    <table id="cfdb-controls" width="100%" cellspacing="20">
         <tr>
             <td align="left" valign="top">
                 <form method="get" action="<?php echo $_SERVER['REQUEST_URI']?>" name="displayform" id="displayform">
@@ -122,7 +123,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                             $selected = ($formName == $currSelection) ? "selected" : "";
                             $formNameEscaped = htmlentities($formName, null, 'UTF-8');
                         ?>
-                        <option value="<?php echo $formNameEscaped ?>" <?php echo $selected ?>><?php echo $formNameEscaped ?></option>
+                        <option value="<?php echo str_replace('"', '&quot;', $formNameEscaped) ?>" <?php echo $selected ?>><?php echo $formNameEscaped ?></option>
                         <?php } ?>
                     </select>
                 </form>
@@ -166,6 +167,13 @@ class CFDBViewWhatsInDB extends CFDBView {
                     }
                     function exportData(encSelect) {
                         var enc = encSelect.options[encSelect.selectedIndex].value;
+
+                        var checkedValues = [];
+                        jQuery('input[id^="delete_"]:checked').each(function() {
+                            checkedValues.push(this.name);
+                        });
+                        checkedValues = checkedValues.join(',');
+
                         var url;
                         if (enc == 'GSS') {
                             if (typeof jQuery == 'function') {
@@ -185,6 +193,9 @@ class CFDBViewWhatsInDB extends CFDBView {
                         else if (enc == 'GLD') {
                             alert("<?php echo htmlspecialchars(__('You will now be navigated to the builder page where it will generate a function to place in your Google Spreadsheet', 'contact-form-7-to-database-extension')); ?>");
                             url = '<?php echo $plugin->getAdminUrlPrefix('admin.php') ?>page=CF7DBPluginShortCodeBuilder&form=<?php echo urlencode($currSelection) ?>&enc=' + enc;
+                            if (checkedValues) {
+                                url += "&filter=submit_time[in]" + checkedValues;
+                            }
                             location.href = url;
                         }
                         else {
@@ -198,6 +209,9 @@ class CFDBViewWhatsInDB extends CFDBView {
                             var searchVal = getSearchFieldValue();
                             if (searchVal) {
                                 url += '&search=' + encodeURIComponent(searchVal);
+                            }
+                            if (checkedValues) {
+                                url += "&filter=submit_time[in]" + checkedValues;
                             }
                             //alert(url);
                             location.href = url;
@@ -214,6 +228,9 @@ class CFDBViewWhatsInDB extends CFDBView {
                         var searchVal = getSearchFieldValue();
                         if (searchVal != null && searchVal != "") {
                             url += '&search=' + encodeURI(searchVal);
+                        }
+                        if (checkedValues) {
+                            url += "&filter=submit_time[in]" + checkedValues;
                         }
                         form.setAttribute("action", url);
                         var params = {guser: encodeURI(guser), gpwd: encodeURI(gpwd)};
@@ -409,7 +426,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                         })
             })(jQuery);
         </script>
-        <div style="margin-top:1em"> <?php // Footer ?>
+        <div id="cfdb-footer" style="margin-top:1em"> <?php // Footer ?>
         <table style="width:100%;">
             <tbody>
             <tr>
@@ -499,6 +516,7 @@ class CFDBViewWhatsInDB extends CFDBView {
         <?php
             do_action_ref_array('cfdb_edit_setup', array($plugin));
         }
+        echo '</div>'; // cfdb-admin
     }
 
     /**
@@ -523,14 +541,19 @@ class CFDBViewWhatsInDB extends CFDBView {
 
 
         if (!$page || $page < 1) $page = 1; //default to 1.
-        $startRow = $rowsPerPage * ($page - 1) + 1;
-
+        $startRow = ($totalRows == 0) ? 1 : $rowsPerPage * ($page - 1) + 1;
 
         $endRow = min($startRow + $rowsPerPage - 1, $totalRows);
+        if ($endRow <= 0) {
+            $startRow = $endRow = 0;
+        }
         echo '<span style="margin-bottom:5px;">';
         printf(__('Returned entries %s to %s of %s entries in the database', 'contact-form-7-to-database-extension'),
                $startRow, $endRow, $totalRows);
         echo '</span>';
+        if ($endRow == 0) {
+            return $startRow;
+        }
         echo '<div class="cfdb_paginate">';
 
         $numPages = ($rowsPerPage > 0) ? ceil($totalRows / $rowsPerPage) : 1;
@@ -620,6 +643,15 @@ class CFDBViewWhatsInDB extends CFDBView {
             echo  "</div>\n";
         }
 
+        // Next script is to hide the WP "Thank You" footer which can overlap the CFDB table.
+        ?>
+        <script type="text/javascript" language="Javascript">
+            jQuery(document).ready(function () {
+                jQuery('#wpfooter').hide();
+            });
+        </script>
+
+        <?php
         echo '</div>';
         return $startRow;
     }

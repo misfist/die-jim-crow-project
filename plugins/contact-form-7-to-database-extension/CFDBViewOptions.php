@@ -20,19 +20,19 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-class CFDBViewOptions {
+require_once('CFDBView.php');
+
+class CFDBViewOptions extends CFDBView {
 
     /**
-     * @var CF7DBPlugin
+     * @param  $plugin CF7DBPlugin
+     * @return void
      */
-    var $plugin;
-
-    /**
-     * CFDBViewOptions constructor.
-     * @param CF7DBPlugin $plugin
-     */
-    public function __construct(CF7DBPlugin $plugin) {
-        $this->plugin = $plugin;
+    function display(&$plugin) {
+        $this->pageHeader($plugin);
+        if ($this->outputHeader()) {
+            $this->outputOptions($plugin);
+        }
     }
 
     public function enqueueSettingsPageScripts() {
@@ -42,8 +42,10 @@ class CFDBViewOptions {
         wp_enqueue_script('jquery-ui-tabs', array('jquery'));
     }
 
-    public function outputOptions() {
-        $this->outputHeader();
+    /**
+     * @param $plugin CF7DBPlugin
+     */
+    public function outputOptions($plugin) {
         ?>
 
         <script type="text/javascript">
@@ -78,7 +80,7 @@ class CFDBViewOptions {
                     $filter = function ($name) {
                         return strpos($name, 'IntegrateWith') === 0 || $name == 'GenerateSubmitTimeInCF7Email';
                     };
-                    $this->outputSettings($filter);
+                    $this->outputSettings($filter, $plugin);
                     ?>
                 </div>
                 <div id="cfdb_config-2">
@@ -88,8 +90,11 @@ class CFDBViewOptions {
                                 'CanSeeSubmitData', 'CanSeeSubmitDataViaShortcode', 'CanChangeSubmitData',
                                 'FunctionsInShortCodes', 'HideAdminPanelFromNonAdmins', 'AllowRSS'));
                     };
-                    $this->outputSettings($filter);
+                    $this->outputSettings($filter, $plugin);
                     ?>
+                    <p>
+                        <a target="_blank" href="http://cfdbplugin.com/?page_id=625" style="font-weight: bold">Notes on security settings</a>
+                    </p>
                 </div>
                 <div id="cfdb_config-3">
                     <?php
@@ -98,7 +103,7 @@ class CFDBViewOptions {
                                 'Timezone', 'NoSaveFields', 'NoSaveForms',
                                 'SaveCookieData', 'SaveCookieNames'));
                     };
-                    $this->outputSettings($filter);
+                    $this->outputSettings($filter, $plugin);
                     ?>
                 </div>
                 <div id="cfdb_config-4">
@@ -107,7 +112,7 @@ class CFDBViewOptions {
                         return in_array($name, array(
                                 'SubmitDateTimeFormat', 'UseCustomDateTimeFormat', 'ShowFileUrlsInExport'));
                     };
-                    $this->outputSettings($filter);
+                    $this->outputSettings($filter, $plugin);
                     ?>
                 </div>
                 <div id="cfdb_config-5">
@@ -117,16 +122,16 @@ class CFDBViewOptions {
                                 'MaxRows', 'MaxVisibleRows', 'HorizontalScroll', 'UseDataTablesJS',
                                 'ShowLineBreaksInDataTable', 'ShowQuery'));
                     };
-                    $this->outputSettings($filter);
+                    $this->outputSettings($filter, $plugin);
                     ?>
                 </div>
                 <div id="cfdb_config-10">
-                    <?php $this->outputSystemSettings();
+                    <?php $this->outputSystemSettings($plugin);
                     $filter = function ($name) {
                         return in_array($name, array(
                                 'ErrorOutput', 'DropOnUninstall', '_version'));
                     };
-                    $this->outputSettings($filter);
+                    $this->outputSettings($filter, $plugin);
                     ?>
                 </div>
             </div>
@@ -136,9 +141,24 @@ class CFDBViewOptions {
         $this->outputFooter();
     }
 
-public function outputHeader() {
+    /**
+     * @return bool false means don't display additional contents because PHP version is too old
+     */
+    public function outputHeader() {
+        if (version_compare(phpversion(), '5.3') < 0) {
+            printf('<h1>%s</h1>',
+                    __('PHP Upgrade Needed', 'contact-form-7-to-database-extension'));
+            _e('This page requires PHP 5.3 or later on your server.', 'contact-form-7-to-database-extension');
+            echo '<br/>';
+            _e('Your server\'s PHP version: ', 'contact-form-7-to-database-extension');
+            echo phpversion();
+            echo '<br/>';
+            printf('<a href="https://wordpress.org/about/requirements/">%s</a>',
+                    __('See WordPress Recommended PHP Version', 'contact-form-7-to-database-extension'));
+            return false;
+        }
+
     ?>
-    <div>
         <style type="text/css">
             table.cfdb-options-table {
                 width: 100%
@@ -162,27 +182,31 @@ public function outputHeader() {
                 padding-right: 4px
             }
         </style>
-        <h2><img src="<?php echo $this->plugin->getPluginFileUrl('img/icon-50x50.png') ?>" alt=""/>
-            <?php echo htmlspecialchars(__('Settings', 'contact-form-7-to-database-extension')); ?></h2>
-        <form method="post" action="">
-            <p class="submit">
-                <input type="submit" class="button-primary"
-                       value="<?php echo htmlspecialchars(__('Save Changes', 'contact-form-7-to-database-extension')); ?>"/>
-            </p>
+        <div>
+            <form method="post" action="">
+                <p class="submit">
+                    <input type="submit" class="button-primary"
+                           value="<?php echo htmlspecialchars(__('Save Changes', 'contact-form-7-to-database-extension')); ?>"/>
+                </p>
 
             <?php
             $settingsGroup = get_class($this) . '-settings-group';
             settings_fields($settingsGroup);
-            }
+            return true;
 
-            public function outputFooter() {
-            ?>
-        </form>
-    </div>
-    <?php
-}
+        }
 
-    public function outputSystemSettings() {
+    public function outputFooter() {
+        ?>
+            </form>
+        </div>
+        <?php
+    }
+
+    /**
+     * @param $plugin CF7DBPlugin
+     */
+    public function outputSystemSettings(&$plugin) {
         ?>
         <table class="cfdb-options-table">
             <tbody>
@@ -211,10 +235,10 @@ public function outputHeader() {
             </tr>
             <tr>
                 <td><?php echo htmlspecialchars(__('MySQL Version', 'contact-form-7-to-database-extension')); ?></td>
-                <td><?php echo $this->plugin->getMySqlVersion() ?>
+                <td><?php echo $plugin->getMySqlVersion() ?>
                     <?php
                     echo '&nbsp;&nbsp;&nbsp;<span style="background-color: #ffcc00;">';
-                    if (version_compare('5.0', $this->plugin->getMySqlVersion()) > 0) {
+                    if (version_compare('5.0', $plugin->getMySqlVersion()) > 0) {
                         echo htmlspecialchars(__('(WARNING: This plugin may not work properly with versions earlier than MySQL 5.0)', 'contact-form-7-to-database-extension'));
                     }
                     echo '</span>';
@@ -231,8 +255,12 @@ public function outputHeader() {
     }
 
 
-    public function outputSettings($filterFunction) {
-        $optionMetaData = $this->plugin->getOptionMetaData();
+    /**
+     * @param $filterFunction callable
+     * @param $plugin CF7DBPlugin
+     */
+    public function outputSettings($filterFunction, &$plugin) {
+        $optionMetaData = $plugin->getOptionMetaData();
         if ($optionMetaData == null) {
             return;
         }
@@ -249,7 +277,7 @@ public function outputHeader() {
                     <tr valign="top">
                         <td><p><label for="<?php echo $aOptionKey ?>"><?php echo $displayText ?></label></p></td>
                         <td>
-                            <?php $this->plugin->createFormControl($aOptionKey, $aOptionMeta, $this->plugin->getOption($aOptionKey)); ?>
+                            <?php $plugin->createFormControl($aOptionKey, $aOptionMeta, $plugin->getOption($aOptionKey)); ?>
                         </td>
                     </tr>
                     <?php
