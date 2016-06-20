@@ -1,0 +1,73 @@
+.woocommerce {
+
+    a {
+        color: $color__link;
+
+        &:hover,
+        &:focus {
+            color: $color__link-hover;
+        }
+    }
+
+    div.product {
+
+        .woocommerce-tabs {
+            ul.tabs {
+                li {
+                    background-color: $color__foreground;
+                    text-transform: uppercase;
+                    a,
+                    &.active a {
+                        color: $color__black;
+                    }
+
+                    a {
+                        font-weight: normal;
+                    }
+
+                    &.active a {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+
+        p.price,
+        .stock {
+            color: $color__text-meta;
+        }
+
+        span.price {
+            color: $color__foreground;
+        }
+    }
+
+    ul.products {
+        li.product {
+            a {
+                color: $color__foreground;
+            }
+            .price {
+                color: $color__text-meta;
+            }
+
+        }
+    }
+
+    button.button,
+    button.button.alt,
+    a.button {
+        background-color: $color__foreground;
+        color: $color__background !important;
+
+        &:disabled {
+            background-color: $color__mid-light-grey !important;
+        }
+
+        &:hover,
+        &:focus {
+            background-color: $color__light-grey !important;
+        }
+    }
+
+}
